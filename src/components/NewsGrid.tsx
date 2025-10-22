@@ -1,16 +1,12 @@
 import { memo } from "react";
 import NewsCard from "./NewsCard";
 import NewsCardSkeleton from "./NewsCardSkeleton";
-import { NewsArticle } from "@/types";
+import { NewsGridProps } from "@/types";
 
-interface NewsGridProps {
-  articles: NewsArticle[];
-  selectedCategory: string;
-  onArticleClick: (id: number) => void;
-  onBookmarkToggle?: (id: number) => void;
-  isLoading?: boolean;
-}
-
+/**
+ * NewsGrid component that displays a grid of news articles with loading and empty states.
+ * Memoized for performance optimization.
+ */
 const NewsGrid = memo(({ articles, selectedCategory, onArticleClick, onBookmarkToggle, isLoading = false }: NewsGridProps) => {
   return (
     <section className="mb-8">

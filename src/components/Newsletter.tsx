@@ -3,9 +3,15 @@ import Section from "./ui/Section";
 import FormField from "./ui/FormField";
 import { useToast } from "@/hooks/use-toast";
 
+/**
+ * Newsletter component that allows users to subscribe to email updates.
+ */
 const Newsletter = () => {
   const { toast } = useToast();
 
+  /**
+   * Handles newsletter subscription form submission.
+   */
   const handleSubmit = (email: string) => {
     toast({
       title: "सफलतापूर्वक सब्सक्राइब किया गया!",

@@ -3,7 +3,11 @@ import { Menu, X, Search, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import { HeaderProps } from "@/types";
 
+/**
+ * Available news categories for filtering.
+ */
 const categories = [
   "सभी",
   "राष्ट्रीय",
@@ -15,13 +19,9 @@ const categories = [
   "स्वास्थ्य",
 ];
 
-interface HeaderProps {
-  selectedCategory: string;
-  onCategoryChange: (category: string) => void;
-  searchQuery: string;
-  onSearchChange: (query: string) => void;
-}
-
+/**
+ * Header component that provides navigation, search, and theme toggle functionality.
+ */
 const Header = ({ selectedCategory, onCategoryChange, searchQuery, onSearchChange }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { theme, setTheme } = useTheme();

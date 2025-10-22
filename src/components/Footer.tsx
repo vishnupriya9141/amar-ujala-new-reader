@@ -1,6 +1,10 @@
 import { memo } from "react";
 import { Facebook, Twitter, Instagram, Youtube } from "lucide-react";
 
+/**
+ * Footer component that displays site information, links, and social media icons.
+ * Memoized for performance optimization.
+ */
 const Footer = memo(() => {
   return (
     <footer className="bg-card border-t border-border mt-12 py-8">

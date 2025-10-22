@@ -1,16 +1,6 @@
-import { ReactNode } from "react";
 import { Input } from "./input";
 import { Button } from "./button";
-
-interface FormFieldProps {
-  label?: string;
-  placeholder?: string;
-  buttonText?: string;
-  type?: string;
-  required?: boolean;
-  onSubmit?: (value: string) => void;
-  children?: ReactNode;
-}
+import { FormFieldProps } from "@/types";
 
 const FormField = ({
   label,

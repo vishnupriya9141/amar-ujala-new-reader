@@ -1,5 +1,8 @@
 import { AlertCircle } from "lucide-react";
 
+/**
+ * Array of breaking news headlines for the ticker display.
+ */
 const breakingNews = [
   "बड़ी खबर: संसद में ऐतिहासिक बिल पास",
   "शेयर बाजार में रिकॉर्ड तेजी",
@@ -7,6 +10,9 @@ const breakingNews = [
   "नई तकनीक में भारत अव्वल",
 ];
 
+/**
+ * BreakingNews component that displays a scrolling ticker of breaking news headlines.
+ */
 const BreakingNews = () => {
   return (
     <div className="bg-destructive text-destructive-foreground py-3 overflow-hidden">

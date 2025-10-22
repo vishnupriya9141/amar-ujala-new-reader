@@ -4,30 +4,22 @@ import { Card, CardContent, CardHeader } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { NewsCardProps } from "@/types";
 
-interface NewsCardProps {
-  id: number;
-  title: string;
-  excerpt: string;
-  category: string;
-  image: string;
-  date: string;
-  readTime: string;
-  featured?: boolean;
-  views?: number;
-  isRead?: boolean;
-  isBookmarked?: boolean;
-  onClick: (id: number) => void;
-  onBookmarkToggle?: (id: number) => void;
-}
-
+/**
+ * NewsCard component that displays individual news article information with interactive features.
+ * Memoized for performance optimization.
+ */
 const NewsCard = memo(({ id, title, excerpt, category, image, date, readTime, featured, views, isRead, isBookmarked, onClick, onBookmarkToggle }: NewsCardProps) => {
   const [showShareOptions, setShowShareOptions] = useState(false);
   const { toast } = useToast();
 
   const shareUrl = `${window.location.origin}/article/${id}`;
   const shareText = `${title} - ${excerpt.substring(0, 100)}...`;
-
+  
+  /**
+   * Handles sharing the article on different platforms.
+   */
   const handleShare = (platform: string) => {
     let url = '';
     switch (platform) {

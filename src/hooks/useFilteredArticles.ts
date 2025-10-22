@@ -2,6 +2,12 @@ import { useMemo } from "react";
 import { newsArticles } from "@/data/newsData";
 import { NewsArticle } from "@/types";
 
+/**
+ * Custom hook to filter news articles based on selected category and search query.
+ * @param selectedCategory - The category to filter by ("सभी" for all categories)
+ * @param searchQuery - The search query to filter by (optional)
+ * @returns Filtered array of news articles
+ */
 export const useFilteredArticles = (selectedCategory: string, searchQuery: string = ""): NewsArticle[] => {
   return useMemo(() => {
     let filtered = newsArticles;

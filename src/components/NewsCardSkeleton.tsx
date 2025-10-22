@@ -1,6 +1,9 @@
 import { Skeleton } from "./ui/skeleton";
 import { Card, CardContent, CardHeader } from "./ui/card";
 
+/**
+ * NewsCardSkeleton component that displays a loading skeleton for news cards.
+ */
 const NewsCardSkeleton = () => {
   return (
     <Card className="overflow-hidden">

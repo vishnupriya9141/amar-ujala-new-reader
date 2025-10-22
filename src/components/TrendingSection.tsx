@@ -1,6 +1,10 @@
 import { TrendingUp } from "lucide-react";
 import Section from "./ui/Section";
+import { TrendingSectionProps } from "@/types";
 
+/**
+ * Array of trending topics for display in the sidebar.
+ */
 const trendingTopics = [
   "चुनाव 2024",
   "आर्थिक विकास",
@@ -9,10 +13,9 @@ const trendingTopics = [
   "बॉलीवुड",
 ];
 
-interface TrendingSectionProps {
-  onTopicClick: (topic: string) => void;
-}
-
+/**
+ * TrendingSection component that displays a list of trending topics with click handlers.
+ */
 const TrendingSection = ({ onTopicClick }: TrendingSectionProps) => {
   return (
     <Section

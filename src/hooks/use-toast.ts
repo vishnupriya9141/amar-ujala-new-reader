@@ -5,6 +5,9 @@ import type { ToastActionElement, ToastProps } from "@/components/ui/toast";
 const TOAST_LIMIT = 1;
 const TOAST_REMOVE_DELAY = 1000000;
 
+/**
+ * Extended toast props with additional properties for internal management.
+ */
 type ToasterToast = ToastProps & {
   id: string;
   title?: React.ReactNode;
@@ -21,6 +24,9 @@ const actionTypes = {
 
 let count = 0;
 
+/**
+ * Generates a unique ID for toasts.
+ */
 function genId() {
   count = (count + 1) % Number.MAX_SAFE_INTEGER;
   return count.toString();
@@ -45,13 +51,19 @@ type Action =
       type: ActionType["REMOVE_TOAST"];
       toastId?: ToasterToast["id"];
     };
-
-interface State {
+    
+    /**
+     * State interface for toast management.
+     */
+    interface State {
   toasts: ToasterToast[];
 }
 
 const toastTimeouts = new Map<string, ReturnType<typeof setTimeout>>();
 
+/**
+ * Adds a toast to the removal queue with a delay.
+ */
 const addToRemoveQueue = (toastId: string) => {
   if (toastTimeouts.has(toastId)) {
     return;
@@ -68,6 +80,9 @@ const addToRemoveQueue = (toastId: string) => {
   toastTimeouts.set(toastId, timeout);
 };
 
+/**
+ * Reducer function for managing toast state.
+ */
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "ADD_TOAST":
@@ -85,8 +100,8 @@ export const reducer = (state: State, action: Action): State => {
     case "DISMISS_TOAST": {
       const { toastId } = action;
 
-      // ! Side effects ! - This could be extracted into a dismissToast() action,
-      // but I'll keep it here for simplicity
+      // Side effects - This could be extracted into a dismissToast() action,
+      // but kept here for simplicity
       if (toastId) {
         addToRemoveQueue(toastId);
       } else {
@@ -125,6 +140,9 @@ const listeners: Array<(state: State) => void> = [];
 
 let memoryState: State = { toasts: [] };
 
+/**
+ * Dispatches actions to update toast state and notify listeners.
+ */
 function dispatch(action: Action) {
   memoryState = reducer(memoryState, action);
   listeners.forEach((listener) => {
@@ -134,6 +152,9 @@ function dispatch(action: Action) {
 
 type Toast = Omit<ToasterToast, "id">;
 
+/**
+ * Creates and displays a toast notification.
+ */
 function toast({ ...props }: Toast) {
   const id = genId();
 
@@ -163,6 +184,9 @@ function toast({ ...props }: Toast) {
   };
 }
 
+/**
+ * Custom hook for managing toast notifications.
+ */
 function useToast() {
   const [state, setState] = React.useState<State>(memoryState);
 

@@ -10,6 +10,9 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useFilteredArticles } from "@/hooks/useFilteredArticles";
 
+/**
+ * Main Index page component that renders the news application.
+ */
 const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState("सभी");
   const [searchQuery, setSearchQuery] = useState("");
@@ -26,7 +29,10 @@ const Index = () => {
   }, [filteredArticles, visibleArticles]);
 
   const hasMoreArticles = visibleArticles < filteredArticles.length;
-
+  
+  /**
+   * Handles article click events by showing a toast notification.
+   */
   const handleArticleClick = useCallback((id: number) => {
     // For now, we'll use the filtered articles to find the article
     const article = filteredArticles.find(a => a.id === id);
@@ -37,14 +43,20 @@ const Index = () => {
       });
     }
   }, [filteredArticles, toast]);
-
+  
+  /**
+   * Handles trending topic click events by showing a toast notification.
+   */
   const handleTrendingClick = useCallback((topic: string) => {
     toast({
       title: "ट्रेंडिंग विषय",
       description: `"${topic}" के बारे में समाचार खोजे जा रहे हैं...`,
     });
   }, [toast]);
-
+  
+  /**
+   * Toggles bookmark status for an article and shows appropriate toast.
+   */
   const handleBookmarkToggle = useCallback((articleId: number) => {
     setBookmarkedArticles(prev => {
       const newBookmarks = new Set(prev);
@@ -64,7 +76,10 @@ const Index = () => {
       return newBookmarks;
     });
   }, [toast]);
-
+  
+  /**
+   * Loads more articles by increasing the visible count with a simulated delay.
+   */
   const loadMoreArticles = useCallback(() => {
     if (!isLoading && hasMoreArticles) {
       setIsLoading(true);
@@ -74,7 +89,10 @@ const Index = () => {
       }, 500); // Simulate loading delay
     }
   }, [isLoading, hasMoreArticles, articlesPerLoad]);
-
+  
+  /**
+   * Handles scroll events to trigger loading more articles when near bottom.
+   */
   const handleScroll = useCallback(() => {
     if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 100) {
       loadMoreArticles();
@@ -86,7 +104,9 @@ const Index = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
 
-  // Reset visible articles when filters change
+  /**
+   * Resets visible articles count when filters change.
+   */
   useEffect(() => {
     setVisibleArticles(articlesPerLoad);
   }, [selectedCategory, searchQuery, articlesPerLoad]);

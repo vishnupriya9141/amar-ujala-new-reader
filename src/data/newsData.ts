@@ -6,6 +6,9 @@ import entertainmentImage from "@/assets/entertainment-news.jpg";
 
 import { NewsArticle } from "@/types";
 
+/**
+ * Array of news articles data for the application.
+ */
 export const newsArticles: NewsArticle[] = [
   {
     id: 1,

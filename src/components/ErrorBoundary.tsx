@@ -1,23 +1,24 @@
-import React, { Component, ErrorInfo, ReactNode } from "react";
+import React, { Component, ErrorInfo } from "react";
+import { ErrorBoundaryProps, ErrorBoundaryState } from "@/types";
 
-interface Props {
-  children: ReactNode;
-}
-
-interface State {
-  hasError: boolean;
-  error?: Error;
-}
-
-class ErrorBoundary extends Component<Props, State> {
-  public state: State = {
+/**
+ * ErrorBoundary class component that catches JavaScript errors anywhere in the child component tree.
+ */
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  public state: ErrorBoundaryState = {
     hasError: false,
   };
 
-  public static getDerivedStateFromError(error: Error): State {
+  /**
+   * Updates state when an error occurs.
+   */
+  public static getDerivedStateFromError(error: Error): ErrorBoundaryState {
     return { hasError: true, error };
   }
 
+  /**
+   * Catches errors and logs them.
+   */
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     // Error logging removed for production
   }

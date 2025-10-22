@@ -10,6 +10,9 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+/**
+ * Main App component that sets up providers and routing for the application.
+ */
 const App = () => (
   <ErrorBoundary>
     <QueryClientProvider client={queryClient}>
@@ -20,7 +23,6 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
