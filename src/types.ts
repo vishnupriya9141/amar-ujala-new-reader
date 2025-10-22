@@ -5,6 +5,7 @@ export interface NewsArticle {
   id: number;
   title: string;
   excerpt: string;
+  fullContent: string;
   category: string;
   image: string;
   date: string;

@@ -6,19 +6,23 @@ import TrendingSection from "@/components/TrendingSection";
 import BreakingNews from "@/components/BreakingNews";
 import Newsletter from "@/components/Newsletter";
 import Footer from "@/components/Footer";
+import ArticleModal from "@/components/ArticleModal";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useFilteredArticles } from "@/hooks/useFilteredArticles";
+import { NewsArticle } from "@/types";
 
 /**
  * Main Index page component that renders the news application.
  */
-const Index = () => {
+const Index = ({ onShowBookmarks }: { onShowBookmarks: () => void }) => {
   const [selectedCategory, setSelectedCategory] = useState("सभी");
   const [searchQuery, setSearchQuery] = useState("");
   const [visibleArticles, setVisibleArticles] = useState(6);
   const [isLoading, setIsLoading] = useState(false);
   const [bookmarkedArticles, setBookmarkedArticles] = useState<Set<number>>(new Set());
+  const [selectedArticle, setSelectedArticle] = useState<NewsArticle | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { toast } = useToast();
 
   const articlesPerLoad = 6;
@@ -31,18 +35,49 @@ const Index = () => {
   const hasMoreArticles = visibleArticles < filteredArticles.length;
   
   /**
-   * Handles article click events by showing a toast notification.
-   */
-  const handleArticleClick = useCallback((id: number) => {
-    // For now, we'll use the filtered articles to find the article
-    const article = filteredArticles.find(a => a.id === id);
-    if (article) {
-      toast({
-        title: article.title,
-        description: `${article.excerpt} - पूर्ण लेख जल्द ही उपलब्ध होगा।`,
-      });
-    }
-  }, [filteredArticles, toast]);
+    * Handles article click events by opening the article modal.
+    */
+   const handleArticleClick = useCallback((id: number) => {
+     // Import newsArticles directly to get all articles
+     import("@/data/newsData").then(({ newsArticles }) => {
+       const article = newsArticles.find(a => a.id === id);
+       if (article) {
+         setSelectedArticle(article);
+         setIsModalOpen(true);
+       }
+     });
+   }, []);
+
+   /**
+    * Handles bookmark toggle for articles.
+    */
+   const handleBookmarkToggle = useCallback((articleId: number) => {
+     setBookmarkedArticles(prev => {
+       const newBookmarks = new Set(prev);
+       if (newBookmarks.has(articleId)) {
+         newBookmarks.delete(articleId);
+         // Remove from localStorage
+         const bookmarks = JSON.parse(localStorage.getItem('bookmarkedArticles') || '[]');
+         const updatedBookmarks = bookmarks.filter((id: number) => id !== articleId);
+         localStorage.setItem('bookmarkedArticles', JSON.stringify(updatedBookmarks));
+         toast({
+           title: "बुकमार्क हटाया गया",
+           description: "यह लेख आपके बुकमार्क से हटा दिया गया है।",
+         });
+       } else {
+         newBookmarks.add(articleId);
+         // Add to localStorage
+         const bookmarks = JSON.parse(localStorage.getItem('bookmarkedArticles') || '[]');
+         bookmarks.push(articleId);
+         localStorage.setItem('bookmarkedArticles', JSON.stringify(bookmarks));
+         toast({
+           title: "बुकमार्क किया गया",
+           description: "यह लेख आपके बुकमार्क में जोड़ दिया गया है।",
+         });
+       }
+       return newBookmarks;
+     });
+   }, [toast]);
   
   /**
    * Handles trending topic click events by showing a toast notification.
@@ -55,27 +90,27 @@ const Index = () => {
   }, [toast]);
   
   /**
-   * Toggles bookmark status for an article and shows appropriate toast.
-   */
-  const handleBookmarkToggle = useCallback((articleId: number) => {
-    setBookmarkedArticles(prev => {
-      const newBookmarks = new Set(prev);
-      if (newBookmarks.has(articleId)) {
-        newBookmarks.delete(articleId);
-        toast({
-          title: "बुकमार्क हटाया गया",
-          description: "यह लेख आपके बुकमार्क से हटा दिया गया है।",
-        });
-      } else {
-        newBookmarks.add(articleId);
-        toast({
-          title: "बुकमार्क किया गया",
-          description: "यह लेख आपके बुकमार्क में जोड़ दिया गया है।",
-        });
-      }
-      return newBookmarks;
-    });
-  }, [toast]);
+    * Toggles bookmark status for an article and shows appropriate toast.
+    */
+   const handleBookmarkToggleOld = useCallback((articleId: number) => {
+     setBookmarkedArticles(prev => {
+       const newBookmarks = new Set(prev);
+       if (newBookmarks.has(articleId)) {
+         newBookmarks.delete(articleId);
+         toast({
+           title: "बुकमार्क हटाया गया",
+           description: "यह लेख आपके बुकमार्क से हटा दिया गया है।",
+         });
+       } else {
+         newBookmarks.add(articleId);
+         toast({
+           title: "बुकमार्क किया गया",
+           description: "यह लेख आपके बुकमार्क में जोड़ दिया गया है।",
+         });
+       }
+       return newBookmarks;
+     });
+   }, [toast]);
   
   /**
    * Loads more articles by increasing the visible count with a simulated delay.
@@ -119,6 +154,7 @@ const Index = () => {
           onCategoryChange={setSelectedCategory}
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
+          onShowBookmarks={onShowBookmarks}
         />
       </header>
       
@@ -159,9 +195,21 @@ const Index = () => {
         <Newsletter />
       </main>
 
-     <Footer />
-   </div>
- );
+      <Footer />
+
+      {/* Article Modal */}
+      <ArticleModal
+        article={selectedArticle}
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedArticle(null);
+        }}
+        isBookmarked={selectedArticle ? bookmarkedArticles.has(selectedArticle.id) : false}
+        onBookmarkToggle={handleBookmarkToggleOld}
+      />
+    </div>
+  );
 };
 
 

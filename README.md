@@ -97,12 +97,10 @@ amar-ujala-new-reader/
 │   ├── pages/                      # Page components
 │   │   ├── Index.tsx               # Main page component
 │   │   └── NotFound.tsx            # 404 page component
-│   ├── App.css                     # Global CSS styles
 │   ├── App.tsx                     # Main App component
 │   ├── index.css                   # Index CSS styles
 │   ├── main.tsx                    # Application entry point
-│   ├── types.ts                    # TypeScript type definitions
-│   └── vite-env.d.ts               # Vite environment types
+│   └── types.ts                    # TypeScript type definitions
 ├── .gitignore                      # Git ignore file
 ├── bun.lockb                       # Bun lock file
 ├── components.json                 # shadcn-ui components configuration

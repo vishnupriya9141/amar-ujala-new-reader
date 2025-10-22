@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Menu, X, Search, Moon, Sun } from "lucide-react";
+import { Menu, X, Search, Moon, Sun, Bookmark } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -22,9 +22,15 @@ const categories = [
 /**
  * Header component that provides navigation, search, and theme toggle functionality.
  */
-const Header = ({ selectedCategory, onCategoryChange, searchQuery, onSearchChange }: HeaderProps) => {
+const Header = ({ selectedCategory, onCategoryChange, searchQuery, onSearchChange, onShowBookmarks }: HeaderProps & { onShowBookmarks?: () => void }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { theme, setTheme } = useTheme();
+
+  // Get bookmarked articles from localStorage
+  const getBookmarkedArticles = () => {
+    const bookmarks = localStorage.getItem('bookmarkedArticles');
+    return bookmarks ? JSON.parse(bookmarks) : [];
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
@@ -76,6 +82,15 @@ const Header = ({ selectedCategory, onCategoryChange, searchQuery, onSearchChang
             <Button
               variant="ghost"
               size="icon"
+              onClick={onShowBookmarks}
+              aria-label="बुकमार्क किए गए समाचार देखें"
+            >
+              <Bookmark className="h-4 w-4" />
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             >
               <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
@@ -97,6 +112,15 @@ const Header = ({ selectedCategory, onCategoryChange, searchQuery, onSearchChang
         {isMenuOpen && (
           <div className="lg:hidden pb-4 space-y-4">
             <div className="px-4 flex items-center gap-2">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={onShowBookmarks}
+                aria-label="बुकमार्क किए गए समाचार देखें"
+              >
+                <Bookmark className="h-4 w-4" />
+              </Button>
+
               <Button
                 variant="ghost"
                 size="icon"
@@ -146,6 +170,7 @@ const Header = ({ selectedCategory, onCategoryChange, searchQuery, onSearchChang
             </nav>
           </div>
         )}
+
       </div>
     </header>
   );
