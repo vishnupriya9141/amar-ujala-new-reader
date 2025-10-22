@@ -1,7 +1,7 @@
 import { memo } from "react";
 import NewsCard from "./NewsCard";
 import NewsCardSkeleton from "./NewsCardSkeleton";
-import { NewsArticle } from "@/data/newsData";
+import { NewsArticle } from "@/types";
 
 interface NewsGridProps {
   articles: NewsArticle[];

@@ -1,5 +1,6 @@
 import { useMemo } from "react";
-import { newsArticles, NewsArticle } from "@/data/newsData";
+import { newsArticles } from "@/data/newsData";
+import { NewsArticle } from "@/types";
 
 export const useFilteredArticles = (selectedCategory: string, searchQuery: string = ""): NewsArticle[] => {
   return useMemo(() => {

@@ -4,18 +4,7 @@ import sportsImage from "@/assets/sports-news.jpg";
 import techImage from "@/assets/tech-news.jpg";
 import entertainmentImage from "@/assets/entertainment-news.jpg";
 
-export interface NewsArticle {
-  id: number;
-  title: string;
-  excerpt: string;
-  category: string;
-  image: string;
-  date: string;
-  readTime: string;
-  featured?: boolean;
-  views?: number;
-  isRead?: boolean;
-}
+import { NewsArticle } from "@/types";
 
 export const newsArticles: NewsArticle[] = [
   {
