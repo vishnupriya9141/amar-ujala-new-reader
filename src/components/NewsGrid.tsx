@@ -1,14 +1,17 @@
 import { memo } from "react";
 import NewsCard from "./NewsCard";
+import NewsCardSkeleton from "./NewsCardSkeleton";
 import { NewsArticle } from "@/data/newsData";
 
 interface NewsGridProps {
   articles: NewsArticle[];
   selectedCategory: string;
   onArticleClick: (id: number) => void;
+  onBookmarkToggle?: (id: number) => void;
+  isLoading?: boolean;
 }
 
-const NewsGrid = memo(({ articles, selectedCategory, onArticleClick }: NewsGridProps) => {
+const NewsGrid = memo(({ articles, selectedCategory, onArticleClick, onBookmarkToggle, isLoading = false }: NewsGridProps) => {
   return (
     <section className="mb-8">
       <div className="flex items-center gap-2 mb-6">
@@ -18,10 +21,21 @@ const NewsGrid = memo(({ articles, selectedCategory, onArticleClick }: NewsGridP
         </h2>
       </div>
 
-      {articles.length > 0 ? (
+      {isLoading ? (
+        <div className="grid md:grid-cols-2 gap-6">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <NewsCardSkeleton key={index} />
+          ))}
+        </div>
+      ) : articles.length > 0 ? (
         <div className="grid md:grid-cols-2 gap-6">
           {articles.map((article) => (
-            <NewsCard key={article.id} {...article} onClick={onArticleClick} />
+            <NewsCard
+              key={article.id}
+              {...article}
+              onClick={onArticleClick}
+              onBookmarkToggle={onBookmarkToggle}
+            />
           ))}
         </div>
       ) : (

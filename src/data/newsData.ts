@@ -13,6 +13,8 @@ export interface NewsArticle {
   date: string;
   readTime: string;
   featured?: boolean;
+  views?: number;
+  isRead?: boolean;
 }
 
 export const newsArticles: NewsArticle[] = [
@@ -22,9 +24,11 @@ export const newsArticles: NewsArticle[] = [
     excerpt: "नई दिल्ली में आज संसद के दोनों सदनों में महत्वपूर्ण विधेयक पर चर्चा होगी। विपक्षी दलों ने इस बिल का विरोध करते हुए सरकार पर निशाना साधा है।",
     category: "राजनीति",
     image: politicsImage,
-    date: "22 अक्टूबर 2025",
+    date: "22 अक्टूबर 2024",
     readTime: "5 मिनट",
     featured: true,
+    views: 1250,
+    isRead: false,
   },
   {
     id: 2,
@@ -32,8 +36,10 @@ export const newsArticles: NewsArticle[] = [
     excerpt: "आज शेयर बाजार में जबरदस्त तेजी देखने को मिली। सेंसेक्स 500 अंकों की छलांग लगाकर नई ऊंचाई पर पहुंच गया।",
     category: "व्यापार",
     image: businessImage,
-    date: "22 अक्टूबर 2025",
+    date: "22 अक्टूबर 2024",
     readTime: "3 मिनट",
+    views: 630,
+    isRead: false,
   },
   {
     id: 3,
@@ -41,8 +47,10 @@ export const newsArticles: NewsArticle[] = [
     excerpt: "मेलबर्न में खेले गए मैच में भारतीय टीम ने शानदार प्रदर्शन करते हुए ऑस्ट्रेलिया को 5 विकेट से हरा दिया।",
     category: "खेल",
     image: sportsImage,
-    date: "22 अक्टूबर 2025",
+    date: "22 अक्टूबर 2024",
     readTime: "4 मिनट",
+    views: 720,
+    isRead: false,
   },
   {
     id: 4,
@@ -50,8 +58,10 @@ export const newsArticles: NewsArticle[] = [
     excerpt: "भारतीय कंपनियां आर्टिफिशियल इंटेलिजेंस के क्षेत्र में तेजी से आगे बढ़ रही हैं। नई तकनीकों में निवेश बढ़ा है।",
     category: "तकनीक",
     image: techImage,
-    date: "22 अक्टूबर 2025",
+    date: "22 अक्टूबर 2024",
     readTime: "6 मिनट",
+    views: 1100,
+    isRead: false,
   },
   {
     id: 5,
@@ -59,8 +69,10 @@ export const newsArticles: NewsArticle[] = [
     excerpt: "इस साल की सबसे प्रतीक्षित फिल्म ने बॉक्स ऑफिस पर धमाकेदार शुरुआत की है। पहले दिन 50 करोड़ की कमाई हुई।",
     category: "मनोरंजन",
     image: entertainmentImage,
-    date: "22 अक्टूबर 2025",
+    date: "22 अक्टूबर 2024",
     readTime: "3 मिनट",
+    views: 850,
+    isRead: false,
   },
   {
     id: 6,
@@ -68,8 +80,10 @@ export const newsArticles: NewsArticle[] = [
     excerpt: "प्रधानमंत्री ने अपनी विदेश यात्रा में कई देशों के साथ व्यापार और रक्षा समझौतों पर हस्ताक्षर किए हैं।",
     category: "राजनीति",
     image: politicsImage,
-    date: "22 अक्टूबर 2025",
+    date: "22 अक्टूबर 2024",
     readTime: "7 मिनट",
+    views: 680,
+    isRead: true,
   },
   {
     id: 7,
@@ -77,8 +91,10 @@ export const newsArticles: NewsArticle[] = [
     excerpt: "आज पेट्रोल और डीजल की कीमतों में बदलाव किया गया है। प्रमुख शहरों में नई दरें लागू हो गई हैं।",
     category: "व्यापार",
     image: businessImage,
-    date: "22 अक्टूबर 2025",
+    date: "22 अक्टूबर 2024",
     readTime: "2 मिनट",
+    views: 540,
+    isRead: false,
   },
   {
     id: 8,
@@ -86,8 +102,10 @@ export const newsArticles: NewsArticle[] = [
     excerpt: "चल रहे ओलंपिक खेलों में भारतीय खिलाड़ियों ने शानदार प्रदर्शन करते हुए अब तक 5 पदक जीत लिए हैं।",
     category: "खेल",
     image: sportsImage,
-    date: "22 अक्टूबर 2025",
+    date: "22 अक्टूबर 2024",
     readTime: "5 मिनट",
+    views: 890,
+    isRead: true,
   },
   {
     id: 9,
@@ -95,8 +113,10 @@ export const newsArticles: NewsArticle[] = [
     excerpt: "दूरसंचार कंपनियों ने 5G सेवाओं का विस्तार करते हुए 100 नए शहरों में सेवा शुरू करने की घोषणा की है।",
     category: "तकनीक",
     image: techImage,
-    date: "22 अक्टूबर 2025",
+    date: "22 अक्टूबर 2024",
     readTime: "4 मिनट",
+    views: 920,
+    isRead: true,
   },
   {
     id: 10,
@@ -104,8 +124,10 @@ export const newsArticles: NewsArticle[] = [
     excerpt: "देश के मशहूर गायक ने अपना नया म्यूजिक एल्बम रिलीज किया है जो सोशल मीडिया पर वायरल हो रहा है।",
     category: "मनोरंजन",
     image: entertainmentImage,
-    date: "22 अक्टूबर 2025",
+    date: "22 अक्टूबर 2024",
     readTime: "3 मिनट",
+    views: 750,
+    isRead: false,
   },
   {
     id: 11,
@@ -113,8 +135,10 @@ export const newsArticles: NewsArticle[] = [
     excerpt: "चुनाव आयोग ने तीन राज्यों में होने वाले विधानसभा चुनावों की तारीखों की घोषणा कर दी है। सभी पार्टियां तैयारी में जुट गई हैं।",
     category: "राजनीति",
     image: politicsImage,
-    date: "21 अक्टूबर 2025",
+    date: "21 अक्टूबर 2024",
     readTime: "6 मिनट",
+    views: 580,
+    isRead: true,
   },
   {
     id: 12,
@@ -122,8 +146,10 @@ export const newsArticles: NewsArticle[] = [
     excerpt: "सरकार ने स्टार्टअप इंडिया के तहत युवा उद्यमियों के लिए नई योजनाओं की घोषणा की है जिसमें फंडिंग और मार्गदर्शन शामिल है।",
     category: "व्यापार",
     image: businessImage,
-    date: "21 अक्टूबर 2025",
+    date: "21 अक्टूबर 2024",
     readTime: "5 मिनट",
+    views: 490,
+    isRead: false,
   },
   {
     id: 13,
@@ -131,8 +157,10 @@ export const newsArticles: NewsArticle[] = [
     excerpt: "आईपीएल 2026 के लिए हुई खिलाड़ियों की नीलामी में कई खिलाड़ियों को रिकॉर्ड कीमत पर खरीदा गया।",
     category: "खेल",
     image: sportsImage,
-    date: "21 अक्टूबर 2025",
+    date: "21 अक्टूबर 2024",
     readTime: "4 मिनट",
+    views: 410,
+    isRead: false,
   },
   {
     id: 14,
@@ -140,7 +168,7 @@ export const newsArticles: NewsArticle[] = [
     excerpt: "साइबर विशेषज्ञों ने नए साइबर खतरों की चेतावनी दी है और उपभोक्ताओं को सुरक्षा उपाय अपनाने की सलाह दी है।",
     category: "तकनीक",
     image: techImage,
-    date: "21 अक्टूबर 2025",
+    date: "21 अक्टूबर 2024",
     readTime: "5 मिनट",
   },
   {
@@ -149,7 +177,9 @@ export const newsArticles: NewsArticle[] = [
     excerpt: "एक बड़ी बॉलीवुड फिल्म सीधे ओटीटी प्लेटफॉर्म पर रिलीज होने जा रही है, जो सिनेमाघरों के लिए चुनौती है।",
     category: "मनोरंजन",
     image: entertainmentImage,
-    date: "21 अक्टूबर 2025",
+    date: "21 अक्टूबर 2024",
     readTime: "4 मिनट",
+    views: 350,
+    isRead: true,
   },
 ];
