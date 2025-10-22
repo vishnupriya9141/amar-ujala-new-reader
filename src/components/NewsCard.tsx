@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Calendar, Clock } from "lucide-react";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { Badge } from "./ui/badge";
@@ -14,16 +15,17 @@ interface NewsCardProps {
   onClick: (id: number) => void;
 }
 
-const NewsCard = ({ id, title, excerpt, category, image, date, readTime, featured, onClick }: NewsCardProps) => {
+const NewsCard = memo(({ id, title, excerpt, category, image, date, readTime, featured, onClick }: NewsCardProps) => {
   return (
-    <Card 
+    <Card
       className={`group cursor-pointer overflow-hidden hover:shadow-lg transition-all duration-300 ${featured ? 'lg:col-span-2 lg:row-span-2' : ''}`}
       onClick={() => onClick(id)}
     >
       <div className="relative overflow-hidden">
-        <img 
-          src={image} 
+        <img
+          src={image}
           alt={title}
+          loading="lazy"
           className={`w-full object-cover transition-transform duration-300 group-hover:scale-105 ${featured ? 'h-[400px]' : 'h-[200px]'}`}
         />
         <Badge className="absolute top-4 left-4 bg-[hsl(var(--news-category-bg))] hover:bg-[hsl(var(--news-hover))]">
@@ -55,6 +57,8 @@ const NewsCard = ({ id, title, excerpt, category, image, date, readTime, feature
       </CardContent>
     </Card>
   );
-};
+});
+
+NewsCard.displayName = "NewsCard";
 
 export default NewsCard;

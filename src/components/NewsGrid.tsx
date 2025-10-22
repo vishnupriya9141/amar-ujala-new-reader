@@ -1,3 +1,4 @@
+import { memo } from "react";
 import NewsCard from "./NewsCard";
 import { NewsArticle } from "@/data/newsData";
 
@@ -7,7 +8,7 @@ interface NewsGridProps {
   onArticleClick: (id: number) => void;
 }
 
-const NewsGrid = ({ articles, selectedCategory, onArticleClick }: NewsGridProps) => {
+const NewsGrid = memo(({ articles, selectedCategory, onArticleClick }: NewsGridProps) => {
   return (
     <section className="mb-8">
       <div className="flex items-center gap-2 mb-6">
@@ -32,6 +33,8 @@ const NewsGrid = ({ articles, selectedCategory, onArticleClick }: NewsGridProps)
       )}
     </section>
   );
-};
+});
+
+NewsGrid.displayName = "NewsGrid";
 
 export default NewsGrid;

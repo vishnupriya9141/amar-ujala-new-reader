@@ -1,6 +1,7 @@
+import { memo } from "react";
 import { Facebook, Twitter, Instagram, Youtube } from "lucide-react";
 
-const Footer = () => {
+const Footer = memo(() => {
   return (
     <footer className="bg-card border-t border-border mt-12 py-8">
       <div className="container mx-auto px-4">
@@ -58,6 +59,8 @@ const Footer = () => {
       </div>
     </footer>
   );
-};
+});
+
+Footer.displayName = "Footer";
 
 export default Footer;
