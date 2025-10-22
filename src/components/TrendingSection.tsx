@@ -1,0 +1,41 @@
+import { TrendingUp } from "lucide-react";
+
+const trendingTopics = [
+  "चुनाव 2024",
+  "आर्थिक विकास",
+  "क्रिकेट वर्ल्ड कप",
+  "टेक्नोलॉजी",
+  "बॉलीवुड",
+];
+
+interface TrendingSectionProps {
+  onTopicClick: (topic: string) => void;
+}
+
+const TrendingSection = ({ onTopicClick }: TrendingSectionProps) => {
+  return (
+    <div className="bg-card border border-border rounded-lg p-6 sticky top-24">
+      <div className="flex items-center gap-2 mb-4">
+        <TrendingUp className="w-5 h-5 text-accent" />
+        <h2 className="text-xl font-bold text-foreground">ट्रेंडिंग</h2>
+      </div>
+      
+      <div className="space-y-2">
+        {trendingTopics.map((topic, index) => (
+          <button
+            key={topic}
+            className="flex items-center gap-3 w-full text-left p-3 rounded-md hover:bg-secondary transition-colors group cursor-pointer"
+            onClick={() => onTopicClick(topic)}
+          >
+            <span className="text-accent font-bold text-lg">{index + 1}</span>
+            <span className="text-foreground group-hover:text-primary transition-colors font-medium">
+              {topic}
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default TrendingSection;
