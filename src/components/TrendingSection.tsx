@@ -6,11 +6,11 @@ import { TrendingSectionProps } from "@/types";
  * Array of trending topics for display in the sidebar.
  */
 const trendingTopics = [
-  "चुनाव 2024",
-  "आर्थिक विकास",
-  "क्रिकेट वर्ल्ड कप",
-  "टेक्नोलॉजी",
-  "बॉलीवुड",
+  "चुनाव 2025",
+  "भारत का AI सुपरपावर दर्जा",
+  "क्रिकेट विश्व कप 2025",
+  "इलेक्ट्रिक वाहन क्रांति",
+  "बॉलीवुड रिकॉर्ड कमाई",
 ];
 
 /**

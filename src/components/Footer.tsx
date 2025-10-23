@@ -58,7 +58,7 @@ const Footer = memo(() => {
         </div>
 
         <div className="text-center pt-8 border-t border-border">
-          <p className="text-muted-foreground">© 2025 अमर उजाला. सर्वाधिकार सुरक्षित.</p>
+          <p className="text-muted-foreground">© {new Date().getFullYear()} अमर उजाला. सर्वाधिकार सुरक्षित. | Powered by AI & Innovation</p>
         </div>
       </div>
     </footer>
