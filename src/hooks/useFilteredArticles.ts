@@ -1,5 +1,4 @@
-import { useMemo } from "react";
-import { newsArticles } from "@/data/newsData";
+import { useMemo, useState, useEffect } from "react";
 import { NewsArticle } from "@/types";
 
 /**
@@ -9,8 +8,17 @@ import { NewsArticle } from "@/types";
  * @returns Filtered array of news articles
  */
 export const useFilteredArticles = (selectedCategory: string, searchQuery: string = ""): NewsArticle[] => {
+  const [allArticles, setAllArticles] = useState<NewsArticle[]>([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3001/api/news')
+      .then(response => response.json())
+      .then(data => setAllArticles(data))
+      .catch(error => console.error('Error fetching news:', error));
+  }, []);
+
   return useMemo(() => {
-    let filtered = newsArticles;
+    let filtered = allArticles;
 
     // Filter by category
     if (selectedCategory !== "सभी") {
@@ -27,5 +35,5 @@ export const useFilteredArticles = (selectedCategory: string, searchQuery: strin
     }
 
     return filtered;
-  }, [selectedCategory, searchQuery]);
+  }, [selectedCategory, searchQuery, allArticles]);
 };

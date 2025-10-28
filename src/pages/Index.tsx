@@ -38,14 +38,15 @@ const Index = ({ onShowBookmarks }: { onShowBookmarks: () => void }) => {
     * Handles article click events by opening the article modal.
     */
    const handleArticleClick = useCallback((id: number) => {
-     // Import newsArticles directly to get all articles
-     import("@/data/newsData").then(({ newsArticles }) => {
-       const article = newsArticles.find(a => a.id === id);
-       if (article) {
-         setSelectedArticle(article);
-         setIsModalOpen(true);
-       }
-     });
+     fetch(`http://localhost:3001/api/news/${id}`)
+       .then(response => response.json())
+       .then(article => {
+         if (article) {
+           setSelectedArticle(article);
+           setIsModalOpen(true);
+         }
+       })
+       .catch(error => console.error('Error fetching article:', error));
    }, []);
 
    /**

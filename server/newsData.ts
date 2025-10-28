@@ -1,11 +1,27 @@
-import politicsImage from "@/assets/politics-news.jpg";
-import businessImage from "@/assets/business-news.jpg";
-import sportsImage from "@/assets/sports-news.jpg";
-import techImage from "@/assets/tech-news.jpg";
-import entertainmentImage from "@/assets/entertainment-news.jpg";
-import heroImage from "@/assets/hero-news.jpg";
+// Note: Images are served by the server, so we're using full URLs for the server
+const politicsImage = "http://localhost:3001/assets/politics-news.jpg";
+const businessImage = "http://localhost:3001/assets/business-news.jpg";
+const sportsImage = "http://localhost:3001/assets/sports-news.jpg";
+const techImage = "http://localhost:3001/assets/tech-news.jpg";
+const entertainmentImage = "http://localhost:3001/assets/entertainment-news.jpg";
+const heroImage = "http://localhost:3001/assets/hero-news.jpg";
 
-import { NewsArticle } from "@/types";
+/**
+ * Interface representing a news article with its properties.
+ */
+interface NewsArticle {
+  id: number;
+  title: string;
+  excerpt: string;
+  fullContent: string;
+  category: string;
+  image: string;
+  date: string;
+  readTime: string;
+  featured?: boolean;
+  views?: number;
+  isRead?: boolean;
+}
 
 /**
  * Array of news articles data for the application.

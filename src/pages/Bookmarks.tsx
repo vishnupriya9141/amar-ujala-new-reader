@@ -3,25 +3,35 @@ import { ArrowLeft } from "lucide-react";
 import NewsCard from "@/components/NewsCard";
 import { Button } from "@/components/ui/button";
 import { NewsArticle } from "@/types";
-import { newsArticles } from "@/data/newsData";
 
 /**
  * Bookmarks page component that displays all saved/bookmarked articles.
  */
 const Bookmarks = ({ onBack }: { onBack: () => void }) => {
   const [bookmarkedArticles, setBookmarkedArticles] = useState<NewsArticle[]>([]);
+  const [allArticles, setAllArticles] = useState<NewsArticle[]>([]);
+
+  useEffect(() => {
+    // Fetch all articles from API
+    fetch('http://localhost:3001/api/news')
+      .then(response => response.json())
+      .then(data => setAllArticles(data))
+      .catch(error => console.error('Error fetching news:', error));
+  }, []);
 
   useEffect(() => {
     // Load bookmarked articles from localStorage
     const loadBookmarkedArticles = () => {
       const bookmarks = JSON.parse(localStorage.getItem('bookmarkedArticles') || '[]');
       const articles = bookmarks.map((id: number) =>
-        newsArticles.find(article => article.id === id)
+        allArticles.find(article => article.id === id)
       ).filter(Boolean);
       setBookmarkedArticles(articles);
     };
 
-    loadBookmarkedArticles();
+    if (allArticles.length > 0) {
+      loadBookmarkedArticles();
+    }
 
     // Listen for storage changes (in case bookmarks are updated in another tab)
     const handleStorageChange = () => {
@@ -30,7 +40,7 @@ const Bookmarks = ({ onBack }: { onBack: () => void }) => {
 
     window.addEventListener('storage', handleStorageChange);
     return () => window.removeEventListener('storage', handleStorageChange);
-  }, []);
+  }, [allArticles]);
 
   const handleArticleClick = (id: number) => {
     // For now, we'll open the article in the modal
