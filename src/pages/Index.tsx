@@ -7,6 +7,7 @@ import BreakingNews from "@/components/BreakingNews";
 import Newsletter from "@/components/Newsletter";
 import Footer from "@/components/Footer";
 import ArticleModal from "@/components/ArticleModal";
+import WeatherWidget from "@/components/WeatherWidget";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useFilteredArticles } from "@/hooks/useFilteredArticles";
@@ -188,7 +189,8 @@ const Index = ({ onShowBookmarks }: { onShowBookmarks: () => void }) => {
             )}
           </div>
 
-          <aside className="lg:col-span-1" role="complementary" aria-label="ट्रेंडिंग समाचार">
+          <aside className="lg:col-span-1 space-y-6" role="complementary" aria-label="ट्रेंडिंग समाचार और मौसम">
+            <WeatherWidget />
             <TrendingSection onTopicClick={handleTrendingClick} />
           </aside>
         </div>
