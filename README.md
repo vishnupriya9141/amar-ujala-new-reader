@@ -54,16 +54,9 @@ amar-ujala-new-reader/
     ├── index.css                   # Index CSS styles
     ├── main.tsx                    # Application entry point
     ├── types.ts                    # TypeScript type definitions
-    ├── assets/                     # Image assets
-    │   ├── business-news.jpg       # Business news category image
-    │   ├── entertainment-news.jpg  # Entertainment news category image
-    │   ├── hero-news.jpg           # Hero section image
-    │   ├── politics-news.jpg       # Politics news category image
-    │   ├── sports-news.jpg         # Sports news category image
-    │   └── tech-news.jpg           # Technology news category image
+    ├── assets/                     # Image assets (currently empty - images served from server)
     ├── components/                 # React components
     │   ├── ui/                     # Reusable UI components (shadcn-ui)
-    │   │   ├── badge.tsx           # Badge component for tags/labels
     │   │   ├── button.tsx          # Button component with variants
     │   │   ├── card.tsx            # Card component for content containers
     │   │   ├── FormField.tsx       # Custom form field component
@@ -72,8 +65,7 @@ amar-ujala-new-reader/
     │   │   ├── skeleton.tsx        # Skeleton loader component
     │   │   ├── sonner.tsx          # Toast notification component
     │   │   ├── toast.tsx           # Toast component
-    │   │   ├── toaster.tsx         # Toast container component
-    │   │   └── tooltip.tsx         # Tooltip component
+    │   │   └── toaster.tsx         # Toast container component
     │   ├── BreakingNews.tsx        # Breaking news banner component
     │   ├── ErrorBoundary.tsx       # Error boundary for error handling
     │   ├── Footer.tsx              # Footer component with links
@@ -119,7 +111,6 @@ amar-ujala-new-reader/
 - **src/components/WeatherWidget.tsx**: Widget component for displaying weather information.
 
 ### UI Components (shadcn-ui)
-- **src/components/ui/badge.tsx**: Badge component for tags and labels.
 - **src/components/ui/button.tsx**: Button component with various variants and styles.
 - **src/components/ui/card.tsx**: Card component for content containers.
 - **src/components/ui/FormField.tsx**: Custom form field component with validation.
@@ -129,7 +120,6 @@ amar-ujala-new-reader/
 - **src/components/ui/sonner.tsx**: Toast notification component.
 - **src/components/ui/toast.tsx**: Toast component for notifications.
 - **src/components/ui/toaster.tsx**: Toast container component.
-- **src/components/ui/tooltip.tsx**: Tooltip component for additional information.
 
 ### Data and Types
 - **src/types.ts**: TypeScript interfaces and type definitions for news articles and component props. Defines the structure for NewsArticle and other data models.
