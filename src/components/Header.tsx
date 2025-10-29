@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Menu, X, Search, Moon, Sun, Bookmark } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "./ui/button";
@@ -27,11 +27,11 @@ const Header = ({ selectedCategory, onCategoryChange, searchQuery, onSearchChang
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { theme, setTheme } = useTheme();
 
-  // Get bookmarked articles from localStorage
-  const getBookmarkedArticles = () => {
+  // Get bookmarked articles from localStorage - memoized
+  const getBookmarkedArticles = useCallback(() => {
     const bookmarks = localStorage.getItem('bookmarkedArticles');
     return bookmarks ? JSON.parse(bookmarks) : [];
-  };
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
@@ -52,6 +52,8 @@ const Header = ({ selectedCategory, onCategoryChange, searchQuery, onSearchChang
                   onChange={(e) => onSearchChange(e.target.value)}
                   className="pl-10"
                   aria-describedby="search-help"
+                  aria-label="समाचार खोजें"
+                  role="searchbox"
                 />
                 <span id="search-help" className="sr-only">शीर्षक या सामग्री में खोजने के लिए टाइप करें</span>
               </div>

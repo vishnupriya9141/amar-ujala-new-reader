@@ -1,23 +1,30 @@
 import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft } from "lucide-react";
 import NewsCard from "@/components/NewsCard";
 import { Button } from "@/components/ui/button";
 import { NewsArticle } from "@/types";
+import { newsApi } from "@/lib/api-client";
+import { useBookmarks } from "@/hooks/useBookmarks";
 
 /**
  * Bookmarks page component that displays all saved/bookmarked articles.
+ * Uses React Query for efficient data fetching and caching.
  */
 const Bookmarks = ({ onBack }: { onBack: () => void }) => {
   const [bookmarkedArticles, setBookmarkedArticles] = useState<NewsArticle[]>([]);
-  const [allArticles, setAllArticles] = useState<NewsArticle[]>([]);
+  const { toggleBookmark } = useBookmarks();
 
-  useEffect(() => {
-    // Fetch all articles from API
-    fetch('http://localhost:3002/api/news')
-      .then(response => response.json())
-      .then(data => setAllArticles(data))
-      .catch(error => console.error('Error fetching news:', error));
-  }, []);
+  // Fetch all articles using React Query
+  const { data: allArticles = [], isLoading } = useQuery({
+    queryKey: ['news'],
+    queryFn: async () => {
+      const response = await newsApi.getAll();
+      return response.data;
+    },
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
+  });
 
   useEffect(() => {
     // Load bookmarked articles from localStorage
@@ -54,11 +61,7 @@ const Bookmarks = ({ onBack }: { onBack: () => void }) => {
   };
 
   const handleBookmarkToggle = (id: number) => {
-    // Remove from bookmarks
-    const bookmarks = JSON.parse(localStorage.getItem('bookmarkedArticles') || '[]');
-    const updatedBookmarks = bookmarks.filter((articleId: number) => articleId !== id);
-    localStorage.setItem('bookmarkedArticles', JSON.stringify(updatedBookmarks));
-
+    toggleBookmark(id);
     // Update local state
     setBookmarkedArticles(prev => prev.filter(article => article.id !== id));
   };

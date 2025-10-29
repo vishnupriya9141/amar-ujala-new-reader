@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
-import fetch from 'node-fetch';
+import axios from 'axios';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -87,16 +87,16 @@ function calculateReadTime(text) {
 
 async function fetchNewsFromAPI() {
   try {
-    const response = await fetch(NEWS_API_URL, {
+    const response = await axios.get(NEWS_API_URL, {
       headers: { 'User-Agent': 'HindiNewsApp/1.0' }
     });
 
-    if (!response.ok) {
+    if (response.status !== 200) {
       console.error(`API Error: ${response.status} ${response.statusText}`);
       return [];
     }
 
-    const data = await response.json();
+    const data = response.data;
 
     if (data.status !== 'success' || !data.results || data.results.length === 0) {
       console.warn('No results from NewsData.io:', data);

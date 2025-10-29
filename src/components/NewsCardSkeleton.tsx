@@ -1,10 +1,12 @@
+import { memo } from "react";
 import { Skeleton } from "./ui/skeleton";
 import { Card, CardContent, CardHeader } from "./ui/card";
 
 /**
  * NewsCardSkeleton component that displays a loading skeleton for news cards.
+ * Memoized for performance optimization.
  */
-const NewsCardSkeleton = () => {
+const NewsCardSkeleton = memo(() => {
   return (
     <Card className="overflow-hidden">
       <Skeleton className="w-full h-[200px]" />
@@ -21,6 +23,8 @@ const NewsCardSkeleton = () => {
       </CardContent>
     </Card>
   );
-};
+});
+
+NewsCardSkeleton.displayName = "NewsCardSkeleton";
 
 export default NewsCardSkeleton;

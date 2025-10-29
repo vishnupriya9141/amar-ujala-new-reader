@@ -1,23 +1,36 @@
 import { useMemo, useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { NewsArticle } from "@/types";
+import { newsApi } from "@/lib/api-client";
 
 /**
  * Custom hook to filter news articles based on selected category and search query.
+ * Uses React Query for efficient data fetching and caching.
  * @param selectedCategory - The category to filter by ("सभी" for all categories)
  * @param searchQuery - The search query to filter by (optional)
- * @returns Filtered array of news articles
+ * @returns Object containing filtered articles, loading state, and error state
  */
-export const useFilteredArticles = (selectedCategory: string, searchQuery: string = ""): NewsArticle[] => {
-  const [allArticles, setAllArticles] = useState<NewsArticle[]>([]);
+export const useFilteredArticles = (selectedCategory: string, searchQuery: string = "") => {
+  // Fetch all articles using React Query
+  const {
+    data: allArticles = [],
+    isLoading,
+    error,
+    refetch
+  } = useQuery({
+    queryKey: ['news'],
+    queryFn: async () => {
+      const response = await newsApi.getAll();
+      return response.data;
+    },
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
+    retry: 3,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+  });
 
-  useEffect(() => {
-    fetch('http://localhost:3002/api/news')
-      .then(response => response.json())
-      .then(data => setAllArticles(data))
-      .catch(error => console.error('Error fetching news:', error));
-  }, []);
-
-  return useMemo(() => {
+  // Filter articles based on category and search query
+  const filteredArticles = useMemo(() => {
     let filtered = allArticles;
 
     // Filter by category
@@ -36,4 +49,11 @@ export const useFilteredArticles = (selectedCategory: string, searchQuery: strin
 
     return filtered;
   }, [selectedCategory, searchQuery, allArticles]);
+
+  return {
+    articles: filteredArticles,
+    isLoading,
+    error,
+    refetch,
+  };
 };

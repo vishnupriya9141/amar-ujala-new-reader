@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Cloud, Sun, CloudRain, Wind, Droplets, Thermometer, MapPin } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -90,10 +90,10 @@ const WeatherWidget = () => {
     fetchWeatherForLocation();
   }, []);
 
-  const handleRefreshLocation = () => {
+  const handleRefreshLocation = useCallback(() => {
     setLocationRequested(false);
     fetchWeatherForLocation();
-  };
+  }, []);
 
   const getWeatherIcon = (icon: string) => {
     // Map OpenWeatherMap icons to Lucide icons

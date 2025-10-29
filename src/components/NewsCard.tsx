@@ -1,10 +1,14 @@
-import { memo, useState } from "react";
+
+import { memo, useState, useCallback, lazy, Suspense } from "react";
 import { Calendar, Clock, Eye, Share2, Facebook, Twitter, Copy, Bookmark, BookmarkCheck } from "lucide-react";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { NewsCardProps } from "@/types";
+
+// Lazy load the image component for better performance
+const LazyImage = lazy(() => import("@/components/LazyImage"));
 
 /**
  * NewsCard component that displays individual news article information with interactive features.
@@ -16,11 +20,12 @@ const NewsCard = memo(({ id, title, excerpt, category, image, date, readTime, fe
 
   const shareUrl = `${window.location.origin}/article/${id}`;
   const shareText = `${title} - ${excerpt.substring(0, 100)}...`;
-  
+
   /**
-   * Handles sharing the article on different platforms.
-   */
-  const handleShare = (platform: string) => {
+    * Handles sharing the article on different platforms.
+    * Memoized to prevent unnecessary re-renders.
+    */
+  const handleShare = useCallback((platform: string) => {
     let url = '';
     switch (platform) {
       case 'facebook':
@@ -42,11 +47,11 @@ const NewsCard = memo(({ id, title, excerpt, category, image, date, readTime, fe
       window.open(url, '_blank', 'noopener,noreferrer');
     }
     setShowShareOptions(false);
-  };
+  }, [shareUrl, shareText, toast]);
 
   return (
     <Card
-      className={`group cursor-pointer overflow-hidden hover:shadow-lg transition-all duration-300 ${featured ? 'lg:col-span-2 lg:row-span-2' : ''} ${isRead ? 'opacity-75' : ''}`}
+      className={`group cursor-pointer overflow-hidden hover:shadow-lg transition-all duration-300 focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 ${featured ? 'lg:col-span-2 lg:row-span-2' : ''} ${isRead ? 'opacity-75' : ''}`}
       onClick={() => onClick(id)}
       role="article"
       tabIndex={0}
@@ -57,34 +62,48 @@ const NewsCard = memo(({ id, title, excerpt, category, image, date, readTime, fe
         }
       }}
       aria-label={`${title} - ${category} श्रेणी में ${date} को प्रकाशित${isRead ? ' (पढ़ा हुआ)' : ''}`}
+      aria-describedby={`article-${id}-description`}
     >
       {image && (
         <div className="relative overflow-hidden">
-          <img
-            src={image}
-            alt={`${title} के लिए छवि`}
-            loading="lazy"
-            className={`w-full object-cover transition-transform duration-300 group-hover:scale-105 ${featured ? 'h-[400px]' : 'h-[200px]'}`}
-          />
-          <Badge className="absolute top-4 left-4 bg-[hsl(var(--news-category-bg))] hover:bg-[hsl(var(--news-hover))]">
+          <Suspense fallback={
+            <div className={`w-full bg-gray-200 animate-pulse ${featured ? 'h-[400px]' : 'h-[200px]'}`} />
+          }>
+            <LazyImage
+              src={image}
+              alt={`${title} के लिए छवि`}
+              className={`transition-transform duration-300 group-hover:scale-105 ${featured ? 'h-[400px]' : 'h-[200px]'}`}
+            />
+          </Suspense>
+          <Badge className="absolute top-4 left-4 bg-[hsl(var(--news-category-bg))] hover:bg-[hsl(var(--news-hover))] z-10">
             {category}
           </Badge>
         </div>
       )}
 
       <CardHeader>
-        <h3 className={`font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2 ${featured ? 'text-2xl' : 'text-xl'}`}>
+        <h3
+          className={`font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2 ${featured ? 'text-2xl' : 'text-xl'}`}
+          id={`article-${id}-title`}
+        >
           {title}
         </h3>
       </CardHeader>
 
       <CardContent>
-        <p className={`text-muted-foreground mb-4 ${featured ? 'line-clamp-3' : 'line-clamp-2'}`}>
+        <p
+          className={`text-muted-foreground mb-4 ${featured ? 'line-clamp-3' : 'line-clamp-2'}`}
+          id={`article-${id}-description`}
+          aria-describedby={`article-${id}-meta`}
+        >
           {excerpt}
         </p>
 
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4 text-sm text-muted-foreground">
+          <div
+            className="flex items-center gap-4 text-sm text-muted-foreground"
+            id={`article-${id}-meta`}
+          >
             <div className="flex items-center gap-1">
               <Calendar className="w-4 h-4" aria-hidden="true" />
               <time dateTime={date.replace(/\s+/g, '-').toLowerCase()}>{date}</time>
@@ -96,7 +115,7 @@ const NewsCard = memo(({ id, title, excerpt, category, image, date, readTime, fe
             {views && (
               <div className="flex items-center gap-1">
                 <Eye className="w-4 h-4" aria-hidden="true" />
-                <span>{views.toLocaleString()}</span>
+                <span aria-label={`${views.toLocaleString()} views`}>{views.toLocaleString()}</span>
               </div>
             )}
           </div>
