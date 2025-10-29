@@ -10,6 +10,7 @@ import { HeaderProps } from "@/types";
  */
 const categories = [
   "सभी",
+  "सामान्य", 
   "राष्ट्रीय",
   "राजनीति",
   "व्यापार",
@@ -60,11 +61,10 @@ const Header = ({ selectedCategory, onCategoryChange, searchQuery, onSearchChang
               {categories.map((category) => (
                 <button
                   key={category}
-                  className={`transition-colors font-medium cursor-pointer ${
-                    selectedCategory === category
+                  className={`transition-colors font-medium cursor-pointer ${selectedCategory === category
                       ? 'text-primary font-bold border-b-2 border-primary'
                       : 'text-foreground hover:text-primary hover:underline'
-                  }`}
+                    }`}
                   onClick={() => {
                     onCategoryChange(category);
                     setIsMenuOpen(false);
@@ -152,11 +152,10 @@ const Header = ({ selectedCategory, onCategoryChange, searchQuery, onSearchChang
               {categories.map((category) => (
                 <button
                   key={category}
-                  className={`block w-full text-left px-4 py-2 rounded-md transition-colors cursor-pointer font-medium ${
-                    selectedCategory === category
+                  className={`block w-full text-left px-4 py-2 rounded-md transition-colors cursor-pointer font-medium ${selectedCategory === category
                       ? 'bg-primary text-primary-foreground'
                       : 'text-foreground hover:bg-secondary'
-                  }`}
+                    }`}
                   onClick={() => {
                     onCategoryChange(category);
                     setIsMenuOpen(false);
