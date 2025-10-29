@@ -11,7 +11,7 @@ export const useFilteredArticles = (selectedCategory: string, searchQuery: strin
   const [allArticles, setAllArticles] = useState<NewsArticle[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/news')
+    fetch('http://localhost:3002/api/news')
       .then(response => response.json())
       .then(data => setAllArticles(data))
       .catch(error => console.error('Error fetching news:', error));

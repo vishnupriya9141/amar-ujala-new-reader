@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Header from "@/components/Header";
 import NewsGrid from "@/components/NewsGrid";
@@ -6,7 +7,6 @@ import TrendingSection from "@/components/TrendingSection";
 import BreakingNews from "@/components/BreakingNews";
 import Newsletter from "@/components/Newsletter";
 import Footer from "@/components/Footer";
-import ArticleModal from "@/components/ArticleModal";
 import WeatherWidget from "@/components/WeatherWidget";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -17,13 +17,12 @@ import { NewsArticle } from "@/types";
  * Main Index page component that renders the news application.
  */
 const Index = ({ onShowBookmarks }: { onShowBookmarks: () => void }) => {
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("सभी");
   const [searchQuery, setSearchQuery] = useState("");
   const [visibleArticles, setVisibleArticles] = useState(6);
   const [isLoading, setIsLoading] = useState(false);
   const [bookmarkedArticles, setBookmarkedArticles] = useState<Set<number>>(new Set());
-  const [selectedArticle, setSelectedArticle] = useState<NewsArticle | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const { toast } = useToast();
 
   const articlesPerLoad = 6;
@@ -36,19 +35,11 @@ const Index = ({ onShowBookmarks }: { onShowBookmarks: () => void }) => {
   const hasMoreArticles = visibleArticles < filteredArticles.length;
   
   /**
-    * Handles article click events by opening the article modal.
+    * Handles article click events by navigating to the article page.
     */
    const handleArticleClick = useCallback((id: number) => {
-     fetch(`http://localhost:3001/api/news/${id}`)
-       .then(response => response.json())
-       .then(article => {
-         if (article) {
-           setSelectedArticle(article);
-           setIsModalOpen(true);
-         }
-       })
-       .catch(error => console.error('Error fetching article:', error));
-   }, []);
+     navigate(`/article/${id}`);
+   }, [navigate]);
 
    /**
     * Handles bookmark toggle for articles.
@@ -91,28 +82,6 @@ const Index = ({ onShowBookmarks }: { onShowBookmarks: () => void }) => {
     });
   }, [toast]);
   
-  /**
-    * Toggles bookmark status for an article and shows appropriate toast.
-    */
-   const handleBookmarkToggleOld = useCallback((articleId: number) => {
-     setBookmarkedArticles(prev => {
-       const newBookmarks = new Set(prev);
-       if (newBookmarks.has(articleId)) {
-         newBookmarks.delete(articleId);
-         toast({
-           title: "बुकमार्क हटाया गया",
-           description: "यह लेख आपके बुकमार्क से हटा दिया गया है।",
-         });
-       } else {
-         newBookmarks.add(articleId);
-         toast({
-           title: "बुकमार्क किया गया",
-           description: "यह लेख आपके बुकमार्क में जोड़ दिया गया है।",
-         });
-       }
-       return newBookmarks;
-     });
-   }, [toast]);
   
   /**
    * Loads more articles by increasing the visible count with a simulated delay.
@@ -199,18 +168,6 @@ const Index = ({ onShowBookmarks }: { onShowBookmarks: () => void }) => {
       </main>
 
       <Footer />
-
-      {/* Article Modal */}
-      <ArticleModal
-        article={selectedArticle}
-        isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          setSelectedArticle(null);
-        }}
-        isBookmarked={selectedArticle ? bookmarkedArticles.has(selectedArticle.id) : false}
-        onBookmarkToggle={handleBookmarkToggleOld}
-      />
     </div>
   );
 };

@@ -73,7 +73,7 @@ const WeatherWidget = () => {
         }
       }
 
-      const response = await fetch(`http://localhost:3001/api/weather/${encodeURIComponent(targetCity)}`);
+      const response = await fetch(`http://localhost:3002/api/weather/${encodeURIComponent(targetCity)}`);
       if (!response.ok) {
         throw new Error('Failed to fetch weather data');
       }

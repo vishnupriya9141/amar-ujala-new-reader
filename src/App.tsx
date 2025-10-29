@@ -8,6 +8,7 @@ import { useState } from "react";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import Index from "./pages/Index";
 import Bookmarks from "./pages/Bookmarks";
+import ArticlePage from "./pages/ArticlePage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -42,6 +43,7 @@ const App = () => {
                     <Bookmarks onBack={handleBackToHome} />
                   )
                 } />
+                <Route path="/article/:id" element={<ArticlePage />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>

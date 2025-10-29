@@ -13,7 +13,7 @@ const Bookmarks = ({ onBack }: { onBack: () => void }) => {
 
   useEffect(() => {
     // Fetch all articles from API
-    fetch('http://localhost:3001/api/news')
+    fetch('http://localhost:3002/api/news')
       .then(response => response.json())
       .then(data => setAllArticles(data))
       .catch(error => console.error('Error fetching news:', error));

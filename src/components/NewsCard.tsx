@@ -58,17 +58,19 @@ const NewsCard = memo(({ id, title, excerpt, category, image, date, readTime, fe
       }}
       aria-label={`${title} - ${category} श्रेणी में ${date} को प्रकाशित${isRead ? ' (पढ़ा हुआ)' : ''}`}
     >
-      <div className="relative overflow-hidden">
-        <img
-          src={image}
-          alt={`${title} के लिए छवि`}
-          loading="lazy"
-          className={`w-full object-cover transition-transform duration-300 group-hover:scale-105 ${featured ? 'h-[400px]' : 'h-[200px]'}`}
-        />
-        <Badge className="absolute top-4 left-4 bg-[hsl(var(--news-category-bg))] hover:bg-[hsl(var(--news-hover))]">
-          {category}
-        </Badge>
-      </div>
+      {image && (
+        <div className="relative overflow-hidden">
+          <img
+            src={image}
+            alt={`${title} के लिए छवि`}
+            loading="lazy"
+            className={`w-full object-cover transition-transform duration-300 group-hover:scale-105 ${featured ? 'h-[400px]' : 'h-[200px]'}`}
+          />
+          <Badge className="absolute top-4 left-4 bg-[hsl(var(--news-category-bg))] hover:bg-[hsl(var(--news-hover))]">
+            {category}
+          </Badge>
+        </div>
+      )}
 
       <CardHeader>
         <h3 className={`font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2 ${featured ? 'text-2xl' : 'text-xl'}`}>
