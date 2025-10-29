@@ -181,7 +181,5 @@ app.get('/api/weather/:city', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-  console.log(`Fetching live Hindi news from NewsData.io`);
-  console.log(`API Key: ${NEWS_API_KEY ? 'Loaded' : 'MISSING'}`);
+  // Server started successfully
 });

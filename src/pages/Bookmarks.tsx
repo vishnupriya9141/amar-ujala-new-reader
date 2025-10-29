@@ -55,8 +55,7 @@ const Bookmarks = ({ onBack }: { onBack: () => void }) => {
     const article = bookmarkedArticles.find(a => a.id === id);
     if (article) {
       // Since we're in a separate page, we could potentially open the modal here too
-      // But for simplicity, we'll just log for now
-      console.log('Clicked bookmarked article:', id);
+      // But for simplicity, we'll just do nothing for now
     }
   };
 
