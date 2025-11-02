@@ -1,7 +1,7 @@
-# Multi-stage build for React app with Vite
+# Multi-stage build for full-stack application
 
-# Stage 1: Build the application
-FROM node:18-alpine AS builder
+# Stage 1: Build the frontend
+FROM node:18-alpine AS frontend-builder
 
 # Set working directory
 WORKDIR /app
@@ -10,25 +10,40 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci --only=production
+RUN npm ci
 
 # Copy source code
 COPY . .
 
-# Build the application
+# Build the frontend
 RUN npm run build
 
-# Stage 2: Serve the application with nginx
-FROM nginx:alpine
+# Stage 2: Setup the backend
+FROM node:18-alpine AS backend
 
-# Copy built files from builder stage
-COPY --from=builder /app/dist /usr/share/nginx/html
+# Set working directory
+WORKDIR /app
 
-# Copy custom nginx configuration
-COPY nginx.conf /etc/nginx/nginx.conf
+# Copy server package files
+COPY server/package*.json ./server/
 
-# Expose port 80
-EXPOSE 80
+# Install server dependencies
+RUN cd server && npm ci --only=production
 
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Copy server source
+COPY server/ ./server/
+
+# Copy built frontend from previous stage
+COPY --from=frontend-builder /app/dist ./dist
+
+# Copy server .env (if exists)
+COPY server/.env ./server/.env
+
+# Set working directory to server
+WORKDIR /app/server
+
+# Expose port
+EXPOSE 3001
+
+# Start the server
+CMD ["npm", "start"]

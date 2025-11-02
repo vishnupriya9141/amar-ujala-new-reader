@@ -21,6 +21,18 @@ app.use(cors());
 app.use(express.json());
 app.use('/assets', express.static(path.join(process.cwd(), 'assets')));
 
+// Serve static files from the React app build directory
+app.use(express.static(path.join(process.cwd(), 'dist')));
+
+// Catch all handler: send back React's index.html file for client-side routing
+app.get('*', (req, res) => {
+  if (req.path.startsWith('/api/')) {
+    res.status(404).json({ error: 'API endpoint not found' });
+  } else {
+    res.sendFile(path.join(process.cwd(), 'dist', 'index.html'));
+  }
+});
+
 function cleanContent(text) {
   if (!text || typeof text !== 'string') return 'कोई सामग्री उपलब्ध नहीं';
 
